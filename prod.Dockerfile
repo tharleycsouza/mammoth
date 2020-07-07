@@ -8,12 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # set work directory
-WORKDIR /usr/src/amicool
+WORKDIR /usr/src/mammoth
 RUN pip install --upgrade pip
 RUN pip install pipenv
-COPY ./Pipfile /usr/src/amicool/Pipfile
+COPY ./Pipfile /usr/src/mammoth/Pipfile
 RUN pipenv install --skip-lock --system
 
 # copy project
-COPY ./app/local_settings.py /etc/amicool/local_settings.py
-COPY . /usr/src/amicool
+COPY ./app/local_settings.py /etc/mammoth/local_settings.py
+COPY . /usr/src/mammoth

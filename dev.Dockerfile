@@ -8,11 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # set work directory
-WORKDIR /usr/src/amicool
+WORKDIR /usr/src/mammoth
 RUN pip install --upgrade pip
 RUN pip install pipenv
-COPY ./Pipfile /usr/src/amicool/Pipfile
+COPY ./Pipfile /usr/src/mammoth/Pipfile
 RUN pipenv install --skip-lock --system --dev
+RUN pip install https://github.com/darklow/django-suit/tarball/v2
 
 # copy project
-COPY ./app/local_settings_dev.py /etc/amicool/local_settings.py
+COPY ./app/local_settings_dev.py /etc/mammoth/local_settings.py

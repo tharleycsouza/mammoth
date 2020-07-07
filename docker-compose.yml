@@ -3,11 +3,16 @@ version: '3.7'
 services:
 
   web:
+    restart: always
     image: python:3.7-buster
     build:
       context: .
-      dockerfile: prod.Dockerfile
-    command: gunicorn mammoth.wsgi:application --bind 0.0.0.0:8000
+      dockerfile: dev.Dockerfile
+    volumes:
+      - static_volume:/usr/src/mammoth/barman/static
+      - .:/usr/src/mammoth
+
+    command: gunicorn mammoth.wsgi:application --chdir /usr/src/mammoth --bind 0.0.0.0:8000 --reload
     expose:
       - 8000
     environment:
@@ -38,7 +43,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     volumes:
-      - static_volume:/usr/src/mammoth/static
+      - static_volume:/usr/src/mammoth/barman/static
     ports:
       - 80:80
     hostname: mammoth.local

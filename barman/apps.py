@@ -1,11 +1,11 @@
 
 from django.apps import AppConfig
-from suit.apps import DjangoSuitConfig
+#from suit.apps import DjangoSuitConfig#
 
 
 class BarmanConfig(AppConfig):
     name = 'barman'
 
 
-class SuitConfig(DjangoSuitConfig):
-    layout = 'vertical'
+#class SuitConfig(DjangoSuitConfig):
+#    layout = 'horizontal'

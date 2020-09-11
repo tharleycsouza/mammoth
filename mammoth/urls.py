@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from barman import views
 
 admin.site.site_title = 'Mammoth Admin'
 admin.site.site_header = 'Mammoth Admin'
@@ -22,6 +23,9 @@ admin.site.index_title = 'Mammoth Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('django-sb-admin/', include('django_sb_admin.urls')),
+    path('', views.dashboard, name='dashboard'),
+
 ]
 
 

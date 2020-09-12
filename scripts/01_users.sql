@@ -1,0 +1,1 @@
+ALTER ROLE mammoth SUPERUSER;

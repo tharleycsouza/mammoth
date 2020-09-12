@@ -17,3 +17,5 @@ RUN pip install https://github.com/darklow/django-suit/tarball/v2
 
 # copy project
 COPY ./app/local_settings_dev.py /etc/mammoth/local_settings.py
+CoPY  ./barman/barman.conf /etc/
+

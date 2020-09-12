@@ -13,6 +13,7 @@ RUN pip install --upgrade pip
 RUN pip install pipenv
 RUN apt-get update
 RUN apt-get install ipython -y
+RUN apt-get install barman -y
 COPY ./Pipfile /usr/src/mammoth/Pipfile
 RUN pipenv install --skip-lock --system --dev
 RUN pip install https://github.com/darklow/django-suit/tarball/v2

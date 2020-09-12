@@ -32,11 +32,11 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/pgsql/data
+      - ./scripts/:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_USER=mammoth
       - POSTGRES_PASSWORD=mammoth
       - POSTGRES_DB=mammoth
-
   nginx:
     image: nginx:latest
     build:

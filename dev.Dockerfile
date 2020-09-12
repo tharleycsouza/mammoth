@@ -18,6 +18,8 @@ RUN pipenv install --skip-lock --system --dev
 RUN pip install https://github.com/darklow/django-suit/tarball/v2
 
 # copy project
+RUN mkdir -p /etc/barman.d
 COPY ./app/local_settings_dev.py /etc/mammoth/local_settings.py
 CoPY  ./barman/barman.conf /etc/
+CoPY  ./barman/mammoth.conf /etc/barman.d
 

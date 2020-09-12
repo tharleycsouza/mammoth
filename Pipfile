@@ -12,5 +12,6 @@ djangorestframework = "*"
 psycopg2-binary = "*"
 django-sb-admin = "*"
 barman = "*"
+IPython = "*"
 [requires]
 python_version = "3.7"

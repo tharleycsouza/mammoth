@@ -11,9 +11,13 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /usr/src/mammoth
 RUN pip install --upgrade pip
 RUN pip install pipenv
+RUN apt-get update
+RUN apt-get install ipython -y
 COPY ./Pipfile /usr/src/mammoth/Pipfile
 RUN pipenv install --skip-lock --system --dev
 RUN pip install https://github.com/darklow/django-suit/tarball/v2
 
 # copy project
 COPY ./app/local_settings_dev.py /etc/mammoth/local_settings.py
+CoPY  ./barman/barman.conf /etc/
+

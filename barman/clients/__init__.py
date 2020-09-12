@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2020 2ndQuadrant Limited
+# Copyright (C) 2019-2020 2ndQuadrant Limited
 #
 # This file is part of Barman.
 #
@@ -14,15 +14,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Barman.  If not, see <http://www.gnu.org/licenses/>.
-
-"""
-The main Barman module
-"""
-
-from __future__ import absolute_import
-
-from .version import __version__
-
-__config__ = None
-
-__all__ = ['__version__', '__config__']

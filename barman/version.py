@@ -15,14 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Barman.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-The main Barman module
-"""
+'''
+This module contains the current Barman version.
+'''
 
-from __future__ import absolute_import
-
-from .version import __version__
-
-__config__ = None
-
-__all__ = ['__version__', '__config__']
+__version__ = '2.11'

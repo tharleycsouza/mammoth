@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import validate_ipv4_address, RegexValidator
 
+#from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
+
 # Create your models here.
 
 class PostgreSQL(models.Model):
@@ -25,3 +28,8 @@ class PostgreSQL(models.Model):
             
     def __unicode__(self):
         return self.name
+
+class Diagnose(models.Model):
+    name = models.CharField(max_length=100, unique=True, default='config')
+    data = JSONField()
+    date = models.DateTimeField(auto_now_add=True)

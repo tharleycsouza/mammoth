@@ -1,17 +1,4 @@
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-.vscode
-.DS_Store
-*.sqlite3
-*.pyc
-*.db
-*.pid
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
-tmp/*
-barman/static/
-static/
-mammoth/static/
-barman/migrations/
+*.key
+
+*.swp

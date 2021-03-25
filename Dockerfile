@@ -60,5 +60,5 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8  
-RUN python3 -m pipenv install --skip-lock --system --dev
+RUN python3.6 -m pipenv install --skip-lock --system --dev
 COPY ./app/local_settings_dev.py /etc/mammoth/local_settings.py

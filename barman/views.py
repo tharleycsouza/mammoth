@@ -13,3 +13,15 @@ def dashboard(request):
             "nav_active": "dashboard"
         }
     )
+
+
+def pg_register(request):
+    """PG_register.
+    """
+    return render(
+        request,
+        "pg_register.html",
+        {
+            "nav_active": "pg_register"
+        }
+    )

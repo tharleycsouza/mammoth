@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('django-sb-admin/', include('django_sb_admin.urls')),
     path('', views.dashboard, name='dashboard'),
+    path('', views.pg_register, name='pg_register'),
 
 ]
 

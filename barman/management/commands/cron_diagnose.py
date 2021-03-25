@@ -7,6 +7,7 @@ class Command(BaseCommand):
         from django.conf import settings
         import sys
         from barman.models import Diagnose
+        from barman.serializers import DiagnoseSerializer
    
         import subprocess
         process = subprocess.Popen(['barman', 'diagnose'],
@@ -16,8 +17,8 @@ class Command(BaseCommand):
         data = (json.loads(stdout))
         
         try:
-            item = Dianose.objects.get(name='config')
-        except Dianose.DoesNotExist:
+            item = Diagnose.objects.get(name='config')
+        except Diagnose.DoesNotExist:
             item = False
     
         dictionary = {}

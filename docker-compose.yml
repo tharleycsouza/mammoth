@@ -1,0 +1,134 @@
+version: '3.7'
+services:
+  postgreslab1:
+    image: postgres:9.6.2
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    stdin_open: true
+    volumes:
+      - ./example/init-barman-users.sh:/docker-entrypoint-initdb.d/init-barman-users.sh
+      - ./example/server.crt:/server.crt
+      - ./example/server.key:/server.key
+    tty: true
+    ports:
+      - 5435:5432/tcp
+    command:
+      - -c
+      - wal_level=replica
+      - -c
+      - max_wal_senders=11
+      - -c
+      - max_replication_slots=11
+      - -c
+      - hot_standby=on
+      - -c
+      - ssl=off
+      - -c
+      - ssl_cert_file=/server.crt
+      - -c
+      - ssl_key_file=/server.key
+  postgreslab2:
+    image: postgres:9.6.2
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    stdin_open: true
+    volumes:
+      - ./example/init-barman-users.sh:/docker-entrypoint-initdb.d/init-barman-users.sh
+      - ./example/server.crt:/server.crt
+      - ./example/server.key:/server.key
+    tty: true
+    ports:
+      - 5436:5432/tcp
+    command:
+      - -c
+      - wal_level=replica
+      - -c
+      - max_wal_senders=11
+      - -c
+      - max_replication_slots=11
+      - -c
+      - hot_standby=on
+      - -c
+      - ssl=off
+      - -c
+      - ssl_cert_file=/server.crt
+      - -c
+      - ssl_key_file=/server.key
+  barman:
+    image: decsis/pg-barman
+    build: .
+    environment:
+      BARMAN_LOG_LEVEL: WARNING
+    volumes:
+      - ./example/postgreslab1.conf:/etc/barman.d/postgreslab1.conf
+      - ./example/postgreslab2.conf:/etc/barman.d/postgreslab2.conf
+      - ./scripts:/opt/barman/scripts #enables live script edition
+      - static_volume:/usr/src/mammoth/barman/static
+      - .:/usr/src/mammoth
+    command: gunicorn mammoth.wsgi:application --chdir /usr/src/mammoth --bind 0.0.0.0:8000 --reload
+    ports:
+      - 8000:8000/tcp
+    expose:
+      - 8000
+    environment:
+      - SECRET_KEY=02t&3r1uc5gnxt@##3qne9zq)m1k)--8ix7e&hns9ss20+l5dq
+      - SQL_HOST=db
+    restart: always
+    links:
+      - db
+    depends_on:
+      - db
+
+  prometheus:
+    image: quay.io/prometheus/prometheus
+    ports:
+      - 9090:9090/tcp
+    volumes:
+      - ./example/prometheus_config.yml:/etc/prometheus/prometheus.yml
+  rec_pg:
+    image: decsis/postgres-ssh
+    build: recovery_pg/.
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./recovery_pg/scripts/docker_entrypoint.sh:/docker_entrypoint_rec.sh #enables live script edition
+    ports:
+      - 2222:22/tcp
+
+  db:
+    image: postgres:10
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/pgsql/data
+      - ./scripts/:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=mammoth
+      - POSTGRES_PASSWORD=mammoth
+      - POSTGRES_DB=mammoth
+  nginx:
+    image: nginx:latest
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_volume:/usr/src/mammoth/barman/static
+    ports:
+      - 80:80
+    hostname: mammoth.local
+    links:
+      - barman
+    depends_on:
+      - barman
+    dns:
+      - 127.0.0.1
+    dns_search: localhost
+
+volumes:
+  static_volume:
+  postgres_data:
+
